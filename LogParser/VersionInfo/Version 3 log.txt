@@ -1,0 +1,15 @@
+﻿First recorded version.
+
+Summary, most features are implemented. Few major bugs exist. Non player entitiies can cause some issues and this log system at present state does not handle them as well as it should.
+Several patches are in to hopefully fix this, though not 200% sure.
+
+Features
+-Tooltips containing some basic info to declutter the application
+-Implementation of filters
+-Combining of logs into a master html view. (Can be downloaded/saved for future viewing as the formatted document.)
+-Hitting filter misc should remove all the ip addresses though possibly wrong.
+
+Missing features
+-Missing extend info for the application (partly design/decluttering the users view)
+-Changelings can disrupt the system. (Some operatives that take on other peoples names can cause other issues.)
+-Some general formatting of the code needs to be fixed. Commiting to create a rollback point in case of failure.

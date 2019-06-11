@@ -12,5 +12,6 @@ namespace LogParser
         public String Job ="";
         public List<double> playersHit;
         public String antag = "";
+        public String ckey = "";
     }
 }

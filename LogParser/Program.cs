@@ -16,7 +16,8 @@ namespace LogParser
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            WebBrowserHelper.FixBrowserVersion();
+             Application.Run(new Form1());
         }
     }
 }

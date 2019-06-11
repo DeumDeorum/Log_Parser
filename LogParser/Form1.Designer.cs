@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.ShowTimesBox = new System.Windows.Forms.CheckBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.SupplyBox = new System.Windows.Forms.CheckBox();
+            this.ReferenceBox = new System.Windows.Forms.CheckBox();
+            this.SiliconcheckBox2 = new System.Windows.Forms.CheckBox();
             this.EngineeringBox2 = new System.Windows.Forms.CheckBox();
             this.ScienceBox = new System.Windows.Forms.CheckBox();
             this.MedicalBox5 = new System.Windows.Forms.CheckBox();
@@ -58,31 +59,29 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openGameLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openActionLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SiliconcheckBox2 = new System.Windows.Forms.CheckBox();
-            this.ReferenceBox = new System.Windows.Forms.CheckBox();
             this.openManifestLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.SupplyBox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.label6 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.AttackBox = new System.Windows.Forms.CheckBox();
-            this.OOCBox = new System.Windows.Forms.CheckBox();
-            this.EmoteBox = new System.Windows.Forms.CheckBox();
-            this.AccessBox = new System.Windows.Forms.CheckBox();
-            this.ByondBox = new System.Windows.Forms.CheckBox();
-            this.AdminBox = new System.Windows.Forms.CheckBox();
-            this.GameBox = new System.Windows.Forms.CheckBox();
-            this.MiscBox = new System.Windows.Forms.CheckBox();
             this.SayBox = new System.Windows.Forms.CheckBox();
+            this.MiscBox = new System.Windows.Forms.CheckBox();
+            this.GameBox = new System.Windows.Forms.CheckBox();
+            this.AdminBox = new System.Windows.Forms.CheckBox();
+            this.ByondBox = new System.Windows.Forms.CheckBox();
+            this.AccessBox = new System.Windows.Forms.CheckBox();
+            this.EmoteBox = new System.Windows.Forms.CheckBox();
+            this.OOCBox = new System.Windows.Forms.CheckBox();
+            this.AttackBox = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ShowTimesBox
@@ -95,29 +94,6 @@
             this.ShowTimesBox.Text = "Show Times";
             this.ShowTimesBox.UseVisualStyleBackColor = true;
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(-2, 27);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1303, 709);
-            this.tabControl1.TabIndex = 1;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BackColor = System.Drawing.Color.Gray;
-            this.tabPage1.Controls.Add(this.webBrowser1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1295, 683);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Game Log";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
-            // 
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.SystemColors.InactiveCaption;
@@ -128,16 +104,6 @@
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.Color.DimGray;
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1295, 662);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Attack Log";
             // 
             // panel1
             // 
@@ -157,6 +123,45 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(252, 254);
             this.panel1.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 4);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(49, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Look for.";
+            // 
+            // SupplyBox
+            // 
+            this.SupplyBox.AutoSize = true;
+            this.SupplyBox.Location = new System.Drawing.Point(4, 189);
+            this.SupplyBox.Name = "SupplyBox";
+            this.SupplyBox.Size = new System.Drawing.Size(58, 17);
+            this.SupplyBox.TabIndex = 8;
+            this.SupplyBox.Text = "Supply";
+            this.SupplyBox.UseVisualStyleBackColor = true;
+            // 
+            // ReferenceBox
+            // 
+            this.ReferenceBox.AutoSize = true;
+            this.ReferenceBox.Location = new System.Drawing.Point(4, 212);
+            this.ReferenceBox.Name = "ReferenceBox";
+            this.ReferenceBox.Size = new System.Drawing.Size(146, 17);
+            this.ReferenceBox.TabIndex = 7;
+            this.ReferenceBox.Text = "Expanded Reference Set";
+            this.ReferenceBox.UseVisualStyleBackColor = true;
+            // 
+            // SiliconcheckBox2
+            // 
+            this.SiliconcheckBox2.AutoSize = true;
+            this.SiliconcheckBox2.Location = new System.Drawing.Point(4, 166);
+            this.SiliconcheckBox2.Name = "SiliconcheckBox2";
+            this.SiliconcheckBox2.Size = new System.Drawing.Size(57, 17);
+            this.SiliconcheckBox2.TabIndex = 6;
+            this.SiliconcheckBox2.Text = "Silicon";
+            this.SiliconcheckBox2.UseVisualStyleBackColor = true;
             // 
             // EngineeringBox2
             // 
@@ -269,6 +274,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(164, 20);
             this.textBox2.TabIndex = 8;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label2
             // 
@@ -360,41 +366,21 @@
             // openGameLogToolStripMenuItem
             // 
             this.openGameLogToolStripMenuItem.Name = "openGameLogToolStripMenuItem";
-            this.openGameLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openGameLogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openGameLogToolStripMenuItem.Text = "Open Game Log";
             this.openGameLogToolStripMenuItem.Click += new System.EventHandler(this.openGameLogToolStripMenuItem_Click);
             // 
             // openActionLogToolStripMenuItem
             // 
             this.openActionLogToolStripMenuItem.Name = "openActionLogToolStripMenuItem";
-            this.openActionLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openActionLogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openActionLogToolStripMenuItem.Text = "Open Action Log";
             this.openActionLogToolStripMenuItem.Click += new System.EventHandler(this.openActionLogToolStripMenuItem_Click);
-            // 
-            // SiliconcheckBox2
-            // 
-            this.SiliconcheckBox2.AutoSize = true;
-            this.SiliconcheckBox2.Location = new System.Drawing.Point(4, 166);
-            this.SiliconcheckBox2.Name = "SiliconcheckBox2";
-            this.SiliconcheckBox2.Size = new System.Drawing.Size(57, 17);
-            this.SiliconcheckBox2.TabIndex = 6;
-            this.SiliconcheckBox2.Text = "Silicon";
-            this.SiliconcheckBox2.UseVisualStyleBackColor = true;
-            // 
-            // ReferenceBox
-            // 
-            this.ReferenceBox.AutoSize = true;
-            this.ReferenceBox.Location = new System.Drawing.Point(4, 212);
-            this.ReferenceBox.Name = "ReferenceBox";
-            this.ReferenceBox.Size = new System.Drawing.Size(146, 17);
-            this.ReferenceBox.TabIndex = 7;
-            this.ReferenceBox.Text = "Expanded Reference Set";
-            this.ReferenceBox.UseVisualStyleBackColor = true;
             // 
             // openManifestLogToolStripMenuItem
             // 
             this.openManifestLogToolStripMenuItem.Name = "openManifestLogToolStripMenuItem";
-            this.openManifestLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openManifestLogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.openManifestLogToolStripMenuItem.Text = "Open Manifest Log";
             this.openManifestLogToolStripMenuItem.Click += new System.EventHandler(this.openManifestLogToolStripMenuItem_Click);
             // 
@@ -410,25 +396,6 @@
             this.panel2.Size = new System.Drawing.Size(15, 10);
             this.panel2.TabIndex = 18;
             this.panel2.Visible = false;
-            // 
-            // SupplyBox
-            // 
-            this.SupplyBox.AutoSize = true;
-            this.SupplyBox.Location = new System.Drawing.Point(4, 189);
-            this.SupplyBox.Name = "SupplyBox";
-            this.SupplyBox.Size = new System.Drawing.Size(58, 17);
-            this.SupplyBox.TabIndex = 8;
-            this.SupplyBox.Text = "Supply";
-            this.SupplyBox.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 4);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 13);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Look for.";
             // 
             // panel3
             // 
@@ -448,84 +415,15 @@
             this.panel3.Size = new System.Drawing.Size(252, 426);
             this.panel3.TabIndex = 19;
             // 
-            // label7
+            // SayBox
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 4);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(90, 13);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Remove from log.";
-            // 
-            // AttackBox
-            // 
-            this.AttackBox.AutoSize = true;
-            this.AttackBox.Location = new System.Drawing.Point(7, 21);
-            this.AttackBox.Name = "AttackBox";
-            this.AttackBox.Size = new System.Drawing.Size(57, 17);
-            this.AttackBox.TabIndex = 1;
-            this.AttackBox.Text = "Attack";
-            this.AttackBox.UseVisualStyleBackColor = true;
-            // 
-            // OOCBox
-            // 
-            this.OOCBox.AutoSize = true;
-            this.OOCBox.Location = new System.Drawing.Point(7, 45);
-            this.OOCBox.Name = "OOCBox";
-            this.OOCBox.Size = new System.Drawing.Size(49, 17);
-            this.OOCBox.TabIndex = 2;
-            this.OOCBox.Text = "OOC";
-            this.OOCBox.UseVisualStyleBackColor = true;
-            // 
-            // EmoteBox
-            // 
-            this.EmoteBox.AutoSize = true;
-            this.EmoteBox.Location = new System.Drawing.Point(7, 69);
-            this.EmoteBox.Name = "EmoteBox";
-            this.EmoteBox.Size = new System.Drawing.Size(56, 17);
-            this.EmoteBox.TabIndex = 3;
-            this.EmoteBox.Text = "Emote";
-            this.EmoteBox.UseVisualStyleBackColor = true;
-            // 
-            // AccessBox
-            // 
-            this.AccessBox.AutoSize = true;
-            this.AccessBox.Location = new System.Drawing.Point(7, 93);
-            this.AccessBox.Name = "AccessBox";
-            this.AccessBox.Size = new System.Drawing.Size(61, 17);
-            this.AccessBox.TabIndex = 4;
-            this.AccessBox.Text = "Access";
-            this.AccessBox.UseVisualStyleBackColor = true;
-            // 
-            // ByondBox
-            // 
-            this.ByondBox.AutoSize = true;
-            this.ByondBox.Location = new System.Drawing.Point(7, 117);
-            this.ByondBox.Name = "ByondBox";
-            this.ByondBox.Size = new System.Drawing.Size(56, 17);
-            this.ByondBox.TabIndex = 5;
-            this.ByondBox.Text = "Byond";
-            this.ByondBox.UseVisualStyleBackColor = true;
-            // 
-            // AdminBox
-            // 
-            this.AdminBox.AutoSize = true;
-            this.AdminBox.Location = new System.Drawing.Point(7, 141);
-            this.AdminBox.Name = "AdminBox";
-            this.AdminBox.Size = new System.Drawing.Size(55, 17);
-            this.AdminBox.TabIndex = 6;
-            this.AdminBox.Text = "Admin";
-            this.AdminBox.UseVisualStyleBackColor = true;
-            // 
-            // GameBox
-            // 
-            this.GameBox.AutoSize = true;
-            this.GameBox.Location = new System.Drawing.Point(7, 165);
-            this.GameBox.Name = "GameBox";
-            this.GameBox.Size = new System.Drawing.Size(54, 17);
-            this.GameBox.TabIndex = 7;
-            this.GameBox.Text = "Game";
-            this.GameBox.UseVisualStyleBackColor = true;
+            this.SayBox.AutoSize = true;
+            this.SayBox.Location = new System.Drawing.Point(7, 189);
+            this.SayBox.Name = "SayBox";
+            this.SayBox.Size = new System.Drawing.Size(44, 17);
+            this.SayBox.TabIndex = 9;
+            this.SayBox.Text = "Say";
+            this.SayBox.UseVisualStyleBackColor = true;
             // 
             // MiscBox
             // 
@@ -537,15 +435,97 @@
             this.MiscBox.Text = "Misc";
             this.MiscBox.UseVisualStyleBackColor = true;
             // 
-            // SayBox
+            // GameBox
             // 
-            this.SayBox.AutoSize = true;
-            this.SayBox.Location = new System.Drawing.Point(7, 189);
-            this.SayBox.Name = "SayBox";
-            this.SayBox.Size = new System.Drawing.Size(44, 17);
-            this.SayBox.TabIndex = 9;
-            this.SayBox.Text = "Say";
-            this.SayBox.UseVisualStyleBackColor = true;
+            this.GameBox.AutoSize = true;
+            this.GameBox.Location = new System.Drawing.Point(7, 165);
+            this.GameBox.Name = "GameBox";
+            this.GameBox.Size = new System.Drawing.Size(54, 17);
+            this.GameBox.TabIndex = 7;
+            this.GameBox.Text = "Game";
+            this.GameBox.UseVisualStyleBackColor = true;
+            // 
+            // AdminBox
+            // 
+            this.AdminBox.AutoSize = true;
+            this.AdminBox.Location = new System.Drawing.Point(7, 141);
+            this.AdminBox.Name = "AdminBox";
+            this.AdminBox.Size = new System.Drawing.Size(55, 17);
+            this.AdminBox.TabIndex = 6;
+            this.AdminBox.Text = "Admin";
+            this.AdminBox.UseVisualStyleBackColor = true;
+            // 
+            // ByondBox
+            // 
+            this.ByondBox.AutoSize = true;
+            this.ByondBox.Location = new System.Drawing.Point(7, 117);
+            this.ByondBox.Name = "ByondBox";
+            this.ByondBox.Size = new System.Drawing.Size(56, 17);
+            this.ByondBox.TabIndex = 5;
+            this.ByondBox.Text = "Byond";
+            this.ByondBox.UseVisualStyleBackColor = true;
+            // 
+            // AccessBox
+            // 
+            this.AccessBox.AutoSize = true;
+            this.AccessBox.Location = new System.Drawing.Point(7, 93);
+            this.AccessBox.Name = "AccessBox";
+            this.AccessBox.Size = new System.Drawing.Size(61, 17);
+            this.AccessBox.TabIndex = 4;
+            this.AccessBox.Text = "Access";
+            this.AccessBox.UseVisualStyleBackColor = true;
+            // 
+            // EmoteBox
+            // 
+            this.EmoteBox.AutoSize = true;
+            this.EmoteBox.Location = new System.Drawing.Point(7, 69);
+            this.EmoteBox.Name = "EmoteBox";
+            this.EmoteBox.Size = new System.Drawing.Size(56, 17);
+            this.EmoteBox.TabIndex = 3;
+            this.EmoteBox.Text = "Emote";
+            this.EmoteBox.UseVisualStyleBackColor = true;
+            // 
+            // OOCBox
+            // 
+            this.OOCBox.AutoSize = true;
+            this.OOCBox.Location = new System.Drawing.Point(7, 45);
+            this.OOCBox.Name = "OOCBox";
+            this.OOCBox.Size = new System.Drawing.Size(49, 17);
+            this.OOCBox.TabIndex = 2;
+            this.OOCBox.Text = "OOC";
+            this.OOCBox.UseVisualStyleBackColor = true;
+            // 
+            // AttackBox
+            // 
+            this.AttackBox.AutoSize = true;
+            this.AttackBox.Location = new System.Drawing.Point(7, 21);
+            this.AttackBox.Name = "AttackBox";
+            this.AttackBox.Size = new System.Drawing.Size(57, 17);
+            this.AttackBox.TabIndex = 1;
+            this.AttackBox.Text = "Attack";
+            this.AttackBox.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(4, 4);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(90, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Remove from log.";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.Gray;
+            this.tabPage1.Controls.Add(this.webBrowser1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1295, 683);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Log";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // webBrowser1
             // 
@@ -554,6 +534,16 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(1286, 685);
             this.webBrowser1.TabIndex = 2;
+            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(-2, 27);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1303, 709);
+            this.tabControl1.TabIndex = 1;
             // 
             // Form1
             // 
@@ -580,8 +570,6 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.TransparencyKey = System.Drawing.Color.Gray;
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -590,6 +578,8 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -598,9 +588,6 @@
         #endregion
 
         private System.Windows.Forms.CheckBox ShowTimesBox;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox EngineeringBox2;
         private System.Windows.Forms.CheckBox ScienceBox;
@@ -645,7 +632,9 @@
         private System.Windows.Forms.CheckBox OOCBox;
         private System.Windows.Forms.CheckBox AttackBox;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.TabControl tabControl1;
     }
 }
 
