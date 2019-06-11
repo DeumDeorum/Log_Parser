@@ -76,6 +76,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.saveFilteredToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -357,9 +358,10 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openGameLogToolStripMenuItem,
             this.openActionLogToolStripMenuItem,
-            this.openManifestLogToolStripMenuItem});
+            this.openGameLogToolStripMenuItem,
+            this.openManifestLogToolStripMenuItem,
+            this.saveFilteredToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -546,6 +548,13 @@
             this.tabControl1.Size = new System.Drawing.Size(1303, 709);
             this.tabControl1.TabIndex = 1;
             // 
+            // saveFilteredToolStripMenuItem
+            // 
+            this.saveFilteredToolStripMenuItem.Name = "saveFilteredToolStripMenuItem";
+            this.saveFilteredToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveFilteredToolStripMenuItem.Text = "Save Filtered Log";
+            this.saveFilteredToolStripMenuItem.Click += new System.EventHandler(this.saveFilteredToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -636,6 +645,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.ToolStripMenuItem saveFilteredToolStripMenuItem;
     }
 }
 

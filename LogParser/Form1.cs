@@ -19,6 +19,7 @@ namespace LogParser
         }
         List<String> filters = new List<String>();
         int priority = 0;
+        String logNumber = "";
         String[] actionLog = new string[0];
         List<String> filterOut = new List<String>();
         List<DateTime> times = new List<DateTime>();
@@ -141,7 +142,11 @@ namespace LogParser
         }
 
 
-
+        private String findRoundNumber(String log)
+        {
+            String[] temp = log.Split(' ');
+            return temp[temp.Length - 1].Substring(0, temp[temp.Length - 1].Length - 1);
+        }
         //Current search by each persons ckey
         private Person findPerson(String log)
         {
@@ -494,6 +499,7 @@ namespace LogParser
             if (manifestDialog.ShowDialog() == DialogResult.OK)
             {
                 String[] manifestLog = File.ReadAllLines(manifestDialog.FileName);
+                logNumber = findRoundNumber(manifestLog[0]);
                 for (int i = 2; i < manifestLog.Length; i++)
                 {
                     if (manifestLog[i].Contains("\\"))
@@ -508,6 +514,7 @@ namespace LogParser
                     }
 
                 }
+                this.Text ="Round: "+ logNumber;
 
             }
         }
@@ -562,14 +569,14 @@ namespace LogParser
             
             log = ((isAntag) ? "<b><u>" : "")+ "" +"<div  class = \"name\" onmouseover=\"show(tooltip" + i + ")\" onmouseout=\"hide(tooltip" + i + ")\" > " 
                   + prefix+" "+tempPerson.Name 
-                  + "<div class = \"tooltip\" id= \"tooltip"+i+ "\" style=\"background-color:"+color+";\">"
+                  + ": <div class = \"tooltip\" id= \"tooltip"+i+ "\" style=\"background-color:"+color+";\">"
                   + "<div>IC Name: " + tempPerson.Name + "</div>"
                   + "<div>OOC Name: " + tempPerson.ckey + "</div>"
                   + "<div>JOB: " + tempPerson.Job + "</div>"
                   + "<div>ANTAG: " + tempPerson.antag + "</div>"
                   + "<div>TIME: " + "[" + times[times.Count - 1].ToLongTimeString() + "]" + " </div>"
                   + "</div>"
-                  + "</div>" + log+"" + ((isAntag) ? "</b></u>" : "");
+                  + "</div>  " + log+"" + ((isAntag) ? "</b></u>" : "");
 
             return log;
         }
@@ -577,6 +584,22 @@ namespace LogParser
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void saveFilteredToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Webpage |*.html";
+            dialog.Title = "Save Filtered Log";
+            dialog.FileName = "Filtered Log " + logNumber+".html";
+            dialog.ShowDialog();
+            System.IO.Stream stream;
+            
+                stream = dialog.OpenFile();
+                StreamWriter writer = new StreamWriter(stream);
+                writer.Write(webBrowser1.DocumentText);
+                writer.Close();
+            
         }
     }
     
