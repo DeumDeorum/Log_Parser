@@ -19,8 +19,177 @@ namespace LogParser
         }
         List<String> filters = new List<String>();
         int priority = 0;
+        String[] actionLog = new string[0];
+        List<String> filterOut = new List<String>();
+        List<DateTime> times = new List<DateTime>();
+        private void startFilter()
+        {
+            times = new List<DateTime>();
+            richTextBox1.Hide();
+            String[] gameLog2 = gameLog.Clone() as String[];
+            String[] actionLog2 = actionLog.Clone() as String[];
+
+            if (gameLog2 != null || !(gameLog2.Length < 0)) gameLog2 = cleanLogsAccordingToFilters(gameLog);
+            if (actionLog2 != null || !(actionLog2.Length < 0)) actionLog2 = cleanLogsAccordingToFilters(actionLog2);
 
 
+            //Currently Merge of logs is hardcoded. Possible to allow for more logs to become smashed in. However, both ui should be edited before this is done.
+            //Other features are more important at the moment.
+            String[] master = new string[gameLog2.Length + actionLog2.Length];
+            int actionIndex = 0;
+            for (int mergeIndex = 0; mergeIndex < gameLog.Length; mergeIndex++)
+            {
+                Boolean added = false;
+                while (actionIndex < actionLog.Length)
+                {
+                    if (times[mergeIndex] < times[actionIndex + gameLog.Length])
+                    {
+                        master[mergeIndex + actionIndex] = gameLog2[mergeIndex];
+                        added = true;
+                        break;
+                    }
+                    else
+                    {
+                        master[mergeIndex + actionIndex] = actionLog2[actionIndex];
+                        actionIndex++;
+                        added = true;
+                    }
+
+                }
+                if (!added)
+                {
+                    master[mergeIndex + actionIndex] = gameLog2[mergeIndex];
+                }
+            }
+            for (; actionIndex < actionLog.Length; actionIndex++)
+            {
+                master[actionIndex + gameLog.Length] = actionLog2[actionIndex];
+            }
+            if (master.Length > 0)
+            {         
+                webBrowser1.DocumentText = disgustingHorseShitCSSYouDontNNeedToSee()
+                + String.Join("", master.Where((s => handleWhere(s)))) + "</div ><html>";
+            }
+
+            //richTextBox1.Show();
+        }
+        private String[] cleanLogsAccordingToFilters(String[] tempLog)
+        {
+            String[] tempLog2 = tempLog.Clone() as String[];
+            tempLog.CopyTo(tempLog2,0);
+            for (int i = 0; i < tempLog2.Length; i++)
+            {
+                Boolean result = false;
+                Boolean filterOutResult = false;
+                Person person = new Person();
+                String log = tempLog2[i].ToLower();
+                for (int b = 0; b < filters.Count && !result; b++)
+                {
+                    result = log.Contains(filters[b].ToLower());
+
+                }
+                for (int c = 0; c < filterOut.Count && result && !filterOutResult; c++)
+                {
+                    filterOutResult = log.Contains(filterOut[c].ToLower());
+                }
+                bool didFindPerson = false;
+
+                if (log.Contains(")"))
+                {
+
+                    didFindPerson = ((person = findPerson(log)).Name.Length>0);
+
+                    int start = log.IndexOf(")") + 1;
+                    int end = log.Length - start;
+                    log = log.Substring(start);
+
+                    log = trimLocationFromLog(log);
+
+//                    string encasePerson = "";
+//                   if (didFindPerson)
+//                    {
+//                        encasePerson = "<Details> <Summary> " + person.Name + "</Summary> Yeah i contain info </Details>";
+ //                   }
+
+                    //if (log.Contains("(")) log = log.Substring(0, log.IndexOf("(") - 1);
+
+                    if (tempLog2[i].Contains("OOC"))
+                    {
+                        log = "<font color=\"purple\"\">" + log + "</font>";
+                        log = displayToolTip(log, person, "OOC: ");
+                    }
+                    if (tempLog2[i].Contains("ATTACK"))
+                    {
+                        log = "<font color=\"red\"\">" + log + "</font>";
+                        log = displayToolTip(log, person, "Attack");
+                    }
+                    if (tempLog2[i].Contains("SAY"))
+                    {
+                        log = "<font color=\"GREEN\"\">" + log + "</font>";
+                        log = displayToolTip(log, person, "Says: ");
+                    }
+                }
+                parseLogTime(tempLog2[i], tempLog[i]);
+                //Removed for now
+               // if (ShowTimesBox.Checked) log = "[" + times[times.Count-1].ToLongTimeString() + "]:  " + log;
+                if (!result || filterOutResult || person.Name.Contains("N00000000000N"))
+                    log = "";
+                if (log.Length > 1) log = "<div> <inline> " + log + " </inline> </div> ";
+                tempLog2[i] = log;
+            }
+            return tempLog2;
+        }
+
+
+
+        //Current search by each persons ckey
+        private Person findPerson(String log)
+        {
+            Person foundPerson = new Person();
+            Boolean didFindPerson = false;
+            foreach (Person p in listOfPeople)
+            {
+                didFindPerson = log.Substring(0, log.IndexOf(')')).Contains(p.ckey.ToLower());
+                foundPerson = p;
+                if (didFindPerson)
+                    break;
+            }
+            if (!didFindPerson)
+            {
+                foundPerson.Name = "N00000000000N";
+            }
+            return foundPerson;
+        }
+        private String trimLocationFromLog(String log)
+        {
+            Char[] reverse = log.ToCharArray();
+            Array.Reverse(reverse);
+            String logReverse = new string(reverse);
+            if (logReverse.Contains('(')) logReverse = logReverse.Substring(logReverse.IndexOf("(") + 1);
+            if (logReverse.Contains('(')) logReverse = logReverse.Substring(logReverse.IndexOf("(") + 1);
+            reverse = logReverse.ToCharArray();
+            Array.Reverse(reverse);
+            return new string(reverse);
+        }
+
+        private void parseLogTime(String copyOfLog,String origin)
+        {
+            DateTime tempTime = new DateTime();
+            if (copyOfLog.Contains("[") && copyOfLog.Contains("]"))
+            {
+                int startTime = copyOfLog.IndexOf("[") + 1;
+                int endTime = copyOfLog.IndexOf("]") - 1 - startTime;
+                copyOfLog = origin.Substring(startTime, endTime);
+                tempTime = Convert.ToDateTime(copyOfLog);
+                times.Add(tempTime);
+            }
+            else
+            {
+                times.Add(new DateTime(0));
+            }
+        }
+        //The rest of the code can be ignored, most of it is basic functions that are required but are unlikely to have bugs or other complex issues
+        
         //Simple filter and filter out settings. Nothing much to worry about here. Add in here if you want to add filter selection in/out tools.
         private void checkBoxFilters()
         {
@@ -203,11 +372,10 @@ namespace LogParser
             }
         }
 
-
         private void button3_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 filters = new List<string>();
                 filterOut = new List<string>();
 
@@ -218,11 +386,10 @@ namespace LogParser
                 filterOutBySelectionTool();
 
                 startFilter();
-            }
-            catch (Exception) { };
-
-
+            //}
+            //catch (Exception) { };
         }
+
 
         String[] gameLog = new string[0];
         private void openGameLogToolStripMenuItem_Click(object sender, EventArgs e)
@@ -238,258 +405,10 @@ namespace LogParser
 
             // }
         }
-        String[] actionLog = new string[0];
-        List<String> filterOut = new List<String>();
-        private void startFilter()
+        private String disgustingHorseShitCSSYouDontNNeedToSee()
         {
-
-            List<DateTime> times = new List<DateTime>();
-            richTextBox1.Hide();
-            String[] gameLog2 = gameLog.Clone() as String[];
-            String[] actionLog2 = actionLog.Clone() as String[];
-            if (gameLog2 != null || !(gameLog2.Length < 0))
-            {
-
-                for (int i = 0; i < gameLog2.Length; i++)
-                {
-                    Boolean result = false;
-                    Boolean filterOutResult = false;
-                    Person foundPerson = new Person();
-                    String log = gameLog2[i].ToLower();
-                    for (int b = 0; b < filters.Count && !result; b++)
-                    {
-                        result = log.Contains(filters[b].ToLower());
-
-                    }
-                    for (int c = 0; c < filterOut.Count && result && !filterOutResult; c++)
-                    {
-                        filterOutResult = log.Contains(filterOut[c].ToLower());
-                    }
-                    bool personFound = false;
-
-                    if (log.Contains(")"))
-                    {
-                        foreach (Person p in listOfPeople)
-                        {
-                            if (log.Contains("i need a new cmo"))
-                                ;
-                            personFound = log.Substring(0, log.IndexOf(')')).Contains(p.ckey.ToLower());
-                            foundPerson = p;
-                            if (personFound)
-                                break;
-                        }
-                        if (log.Contains("i need a new cmo"))
-                            ;
-                        if (!personFound)
-                        {
-                            foundPerson.Name = "N00000000000N";
-                        }
-                        int start = log.IndexOf(")") + 1;
-                        int end = log.Length - start;
-                        log = log.Substring(start);
-                        Char[] reverse = log.ToCharArray();
-                        Array.Reverse(reverse);
-                        String logReverse = new string(reverse);
-                        if (logReverse.Contains('(')) logReverse = logReverse.Substring(logReverse.IndexOf("(") + 1);
-                        if (logReverse.Contains('(')) logReverse = logReverse.Substring(logReverse.IndexOf("(") + 1);
-                        reverse = logReverse.ToCharArray();
-                        Array.Reverse(reverse);
-                        log = new string(reverse);
-                        string encasePerson = "";
-                        if (personFound)
-                        {
-                            encasePerson = "<Details> <Summary> " + foundPerson.Name + "</Summary> Yeah i contain info </Details>";
-                        }
-
-                        //if (log.Contains("(")) log = log.Substring(0, log.IndexOf("(") - 1);
-                        
-                        if (gameLog2[i].Contains("OOC"))
-                        {
-                            log = "<font color=\"purple\"\">" + log + "</font>";
-                            log = displayToolTip(log, foundPerson, "OOC: ");
-                        }
-                        if (gameLog2[i].Contains("ATTACK"))
-                        {
-                            log = "<font color=\"red\"\">" + log + "</font>";
-                            log = displayToolTip("OOC: " + log, foundPerson, "Attack");
-                        }
-                        if (gameLog2[i].Contains("SAY"))
-                        {
-                            log = "<font color=\"GREEN\"\">" + log + "</font>";
-                            log = displayToolTip(log, foundPerson, "Says: ");
-                        }
-
-                        //USE FUCKING SPOILER INSTEAD OF TOOL TIP
-
-
-
-                    }
-                    String tempLog = gameLog2[i];
-                    DateTime temp = new DateTime();
-                    if (tempLog.Contains("[") && tempLog.Contains("]"))
-                    {
-                        int startTime = tempLog.IndexOf("[") + 1;
-                        int endTime = tempLog.IndexOf("]") - 1 - startTime;
-                        tempLog = gameLog[i].Substring(startTime, endTime);
-
-                        temp = Convert.ToDateTime(tempLog);
-                        times.Add(temp);
-                    }
-                    else
-                    {
-                        times.Add(new DateTime(0));
-                    }
-                    if (ShowTimesBox.Checked) log = "<font size=\"2\">" + temp.ToShortTimeString() + "</font> " + log;
-                    if (!result || filterOutResult || foundPerson.Name.Contains("N00000000000N"))
-                        log = "";
-
-                    gameLog2[i] = "<div><div>" + log + "</div></div>";
-
-
-                }
-                //   foreach (String t in gameLog)
-                //  {ff
-                // richTextBox1.Text = String.Join("\n\n", gameLog2.Where((s => !String.IsNullOrEmpty(s))));
-
-
-            }
-            if (actionLog2 != null || !(actionLog2.Length < 0))
-            {
-                for (int i = 0; i < actionLog2.Length; i++)
-                {
-                    Boolean result = false;
-                    Boolean filterOutResult = false;
-                    Person foundPerson = new Person();
-                    String log = actionLog2[i].ToLower();
-                    for (int b = 0; b < filters.Count && !result; b++)
-                    {
-                        result = log.Contains(filters[b].ToLower());
-
-                    }
-                    for (int c = 0; c < filterOut.Count && result && !filterOutResult; c++)
-                    {
-                        filterOutResult = log.Contains(filterOut[c].ToLower());
-                    }
-                    bool personFound = false;
-
-                    if (log.Contains(")"))
-                    {
-                        foreach (Person p in listOfPeople)
-                        {
-                            personFound = log.Substring(0,log.IndexOf(')')).Contains(p.ckey.ToLower());
-                            foundPerson = p;
-                            if (personFound) break;
-                        }
-                        if (!personFound)
-                        {
-                            foundPerson.Name = "N00000000000N";
-                        }
-                        int start = log.IndexOf(")") + 1;
-                        int end = log.Length - start;
-                        log = log.Substring(start);
-
-
-                        String deeperDive = log.Substring(log.IndexOf("(") + 1);
-
-
-                        Char[] reverse = log.ToCharArray();
-                        Array.Reverse(reverse);
-                        String logReverse = new string(reverse);
-                        if (logReverse.Contains('(')) logReverse = logReverse.Substring(logReverse.IndexOf("(") + 1);
-                        if (logReverse.Contains('(')) logReverse = logReverse.Substring(logReverse.IndexOf("(") + 1);
-                        reverse = logReverse.ToCharArray();
-                        Array.Reverse(reverse);
-                        log = new string(reverse);
-
-
-
-                        //if (log.Contains("(")) log = log.Substring(0, log.IndexOf("(") - 1);
-
-                        if (actionLog2[i].Contains("OOC"))
-                        {
-                            log = "<font color=\"purple\"\">" + log + "</font>";
-                            log = displayToolTip(log, foundPerson, "OOC: ");
-                        }
-                        if (actionLog2[i].Contains("ATTACK"))
-                        {
-                            log = "<font color=\"red\"\">" + log + "</font>";
-                            log = displayToolTip(log, foundPerson, "Attack");
-                        }
-                        if (actionLog2[i].Contains("SAY"))
-                        {
-                            log = "<font color=\"GREEN\"\">" + log + "</font>";
-                            log = displayToolTip(log, foundPerson, "Says: ");
-                        }
-
-
-
-                        //log = "<div class=\"tooltip\"> <a href=\"test.html\" title=\"test tooltip\">test link</a>  " + log + " a<span class=\"tooltiptext\">" + foundPerson.Job + " " + foundPerson.antag + "</span> </div>";
-                    }
-                    String tempLog = actionLog2[i];
-                    DateTime temp = new DateTime();
-                    if (tempLog.Contains("[") && tempLog.Contains("]"))
-                    {
-                        int startTime = tempLog.IndexOf("[") + 1;
-                        int endTime = tempLog.IndexOf("]") - 1 - startTime;
-                        tempLog = actionLog[i].Substring(startTime, endTime);
-
-                        temp = Convert.ToDateTime(tempLog);
-                        times.Add(temp);
-                    }
-                    else
-                    {
-                        times.Add(new DateTime(0));
-                    }
-                    if (ShowTimesBox.Checked) log = "<font size=\"2\">" + temp.ToShortTimeString() + "</font> " + log;
-                    if (!result || filterOutResult || foundPerson.Name.Contains("N00000000000N"))
-                        log = "";
-                    actionLog2[i] = "<div><div>"+log+"</div></div>";
-                    
-
-
-                }
-                //   foreach (String t in gameLog)
-                //  {ff
-                // richTextBox1.Text = String.Join("\n\n", gameLog2.Where((s => !String.IsNullOrEmpty(s))));
-
-
-            }
-            String[] master = new string[gameLog2.Length + actionLog2.Length];
-            int f = 0;
-            for (int a = 0; a < gameLog.Length; a++)
-            {
-                Boolean added = false;
-                while (f < actionLog.Length)
-                {
-                    if (times[a] < times[f + gameLog.Length])
-                    {
-                        master[a + f] = gameLog2[a];
-                        added = true;
-                        break;
-                    }
-                    else
-                    {
-                        master[a + f] = actionLog2[f];
-                        f++;
-                        added = true;
-                    }
-
-                }
-                if (!added)
-                {
-                    master[a + f] = gameLog2[a];
-                }
-            }
-            for (; f < actionLog.Length; f++)
-            {
-                master[f + gameLog.Length] = actionLog2[f];
-            }
-            if (master.Length > 0)
-            {
-                //IHTMLDocument2 document = new HtmlDocument();
-                //  document.createStyleSheet(           
-                webBrowser1.DocumentText = "<html><style>.name{"
-                    +   "float:left;"
+            return "<html><style>.name{"
+                    + "float:left;"
                     + " margin: 0px;"
                     + "  border: 0px solid black;"
                     + "}"
@@ -500,8 +419,50 @@ namespace LogParser
                     + " height: 100px;"
                     + " border: 1px solid black;"
                     + " display: none;"
-                   // + "background-color: coral;"
-                    + "}"
+                    // + "background-color: coral;"
+                    + "} "
+
+
+
+                    + ".wrapper{"
+                    + "\nheight: 100%;"
+                    + "\nwidth: 100%;"
+                    + "\nleft: 0;"
+                    + "\nright: 0;"
+                    + "\ntop: 0;"
+                    + "\nbottom: 0;"
+                    + "\nposition: absolute;"
+                    + "\nbackground: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);"
+                    + "\nbackground-size: 1800% 1800%;"
+
+                    + "\n-webkit-animation: rainbow 18s ease infinite;"
+                    + "\n-z-animation: rainbow 18s ease infinite;"
+                    + "\n-o-animation: rainbow 18s ease infinite;"
+                    + "\nanimation: rainbow 18s ease infinite;"
+                    + "\n}"
+
+                    + "\n@-webkit-keyframes rainbow {"
+                    + "\n 0%{ background-position:0% 82%}"
+                    + "\n 50%{ background-position:100% 19%}"
+                    + "\n 100%{ background-position:0% 82%}"
+                    + "\n }"
+                    + "\n@-moz-keyframes rainbow {"
+                    + "\n 0%{ background-position:0% 82%}"
+                    + "\n 50%{ background-position:100% 19%}"
+                    + "\n 100%{ background-position:0% 82%}"
+                    + "\n}"
+                    + "\n@-o-keyframes rainbow {"
+                    + "\n 0%{ background-position:0% 82%}"
+                    + "\n 50%{ background-position:100% 19%}"
+                    + "\n 100%{ background-position:0% 82%}"
+                    + "\n}"
+                    + "\n@keyframes rainbow {"
+                    + "\n 0%{ background-position:0% 82%}"
+                    + "\n 50%{ background-position:100% 19%}"
+                    + "\n 100%{ background-position:0% 82%}"
+                    + "\n}"
+
+
                     + "</style><script>"
                     + "function show(elem) {"
                     + "elem.style.display = \"block\";"
@@ -511,10 +472,7 @@ namespace LogParser
                     + "elem.style.display = \"\";"
                     + "}"
                     + "</script>"
-                    + String.Join("", master.Where((s => handleWhere(s)))) + "<html>";
-            }
-
-            //richTextBox1.Show();
+                   + "<div class=\"wrapper\"> ";
         }
         private Boolean handleWhere(String s)
         {
@@ -602,19 +560,16 @@ namespace LogParser
             i++;
             Boolean isAntag = !(tempPerson.antag.Contains("none"));
             
-            log = ((isAntag) ? "<b><u>" : "")+ "<div>" +"<div  class = \"name\" onmouseover=\"show(tooltip" + i + ")\" onmouseout=\"hide(tooltip" + i + ")\" > " 
+            log = ((isAntag) ? "<b><u>" : "")+ "" +"<div  class = \"name\" onmouseover=\"show(tooltip" + i + ")\" onmouseout=\"hide(tooltip" + i + ")\" > " 
                   + prefix+" "+tempPerson.Name 
-                  + "  <div class = \"tooltip\" id= \"tooltip"+i+ "\" style=\"background-color:"+color+";\">"
+                  + "<div class = \"tooltip\" id= \"tooltip"+i+ "\" style=\"background-color:"+color+";\">"
                   + "<div>IC Name: " + tempPerson.Name + "</div>"
                   + "<div>OOC Name: " + tempPerson.ckey + "</div>"
                   + "<div>JOB: " + tempPerson.Job + "</div>"
                   + "<div>ANTAG: " + tempPerson.antag + "</div>"
-                  + "   </div>"
-                  + "</div>" + log+"</div>" + ((isAntag) ? "</b></u>" : "");
-
-
-
-
+                  + "<div>TIME: " + "[" + times[times.Count - 1].ToLongTimeString() + "]" + " </div>"
+                  + "</div>"
+                  + "</div>" + log+"" + ((isAntag) ? "</b></u>" : "");
 
             return log;
         }

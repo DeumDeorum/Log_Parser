@@ -93,6 +93,7 @@
             this.ShowTimesBox.TabIndex = 0;
             this.ShowTimesBox.Text = "Show Times";
             this.ShowTimesBox.UseVisualStyleBackColor = true;
+            this.ShowTimesBox.Visible = false;
             // 
             // richTextBox1
             // 
