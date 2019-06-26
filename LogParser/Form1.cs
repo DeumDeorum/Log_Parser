@@ -84,6 +84,7 @@ namespace LogParser
                 Boolean filterOutResult = false;
                 Person person = new Person();
                 String log = tempLog2[i].ToLower();
+                parseLogTime(tempLog2[i], tempLog[i]);
                 for (int b = 0; b < filters.Count && !result; b++)
                 {
                     result = log.Contains(filters[b].ToLower());
@@ -130,7 +131,6 @@ namespace LogParser
                         log = displayToolTip(log, person, "Says: ");
                     }
                 }
-                parseLogTime(tempLog2[i], tempLog[i]);
                 //Removed for now
                // if (ShowTimesBox.Checked) log = "[" + times[times.Count-1].ToLongTimeString() + "]:  " + log;
                 if (!result || filterOutResult || person.Name.Contains("N00000000000N"))
@@ -428,7 +428,7 @@ namespace LogParser
                     + "} "
 
 
-
+/*
                     + ".wrapper{"
                     + "\nheight: 100%;"
                     + "\nwidth: 100%;"
@@ -466,7 +466,7 @@ namespace LogParser
                     + "\n 50%{ background-position:100% 19%}"
                     + "\n 100%{ background-position:0% 82%}"
                     + "\n}"
-
+*/
 
                     + "</style><script>"
                     + "function show(elem) {"
@@ -568,10 +568,10 @@ namespace LogParser
             Boolean isAntag = !(tempPerson.antag.Contains("none"));
             
             log = ((isAntag) ? "<b><u>" : "")+ "" +"<div  class = \"name\" onmouseover=\"show(tooltip" + i + ")\" onmouseout=\"hide(tooltip" + i + ")\" > " 
-                  + prefix+" "+tempPerson.Name 
+                  +((ShowTimesBox.Checked)?("[" + times[times.Count - 1].ToLongTimeString() + "]:  ") :"") + prefix +" "+tempPerson.Name 
                   + ": <div class = \"tooltip\" id= \"tooltip"+i+ "\" style=\"background-color:"+color+";\">"
                   + "<div>IC Name: " + tempPerson.Name + "</div>"
-                  + "<div>OOC Name: " + tempPerson.ckey + "</div>"
+                  + "<div>CKey Name: " + tempPerson.ckey + "</div>"
                   + "<div>JOB: " + tempPerson.Job + "</div>"
                   + "<div>ANTAG: " + tempPerson.antag + "</div>"
                   + "<div>TIME: " + "[" + times[times.Count - 1].ToLongTimeString() + "]" + " </div>"

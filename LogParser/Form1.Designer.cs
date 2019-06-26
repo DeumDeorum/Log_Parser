@@ -77,6 +77,16 @@
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.saveFilteredToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label8 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.Keep = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -94,7 +104,6 @@
             this.ShowTimesBox.TabIndex = 0;
             this.ShowTimesBox.Text = "Show Times";
             this.ShowTimesBox.UseVisualStyleBackColor = true;
-            this.ShowTimesBox.Visible = false;
             // 
             // richTextBox1
             // 
@@ -272,7 +281,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(72, 746);
+            this.textBox2.Location = new System.Drawing.Point(163, 746);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(164, 20);
             this.textBox2.TabIndex = 8;
@@ -281,7 +290,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 749);
+            this.label2.Location = new System.Drawing.Point(103, 749);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 13);
             this.label2.TabIndex = 9;
@@ -290,7 +299,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(242, 749);
+            this.label3.Location = new System.Drawing.Point(333, 749);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 13);
             this.label3.TabIndex = 11;
@@ -298,7 +307,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(302, 746);
+            this.textBox3.Location = new System.Drawing.Point(393, 746);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(164, 20);
             this.textBox3.TabIndex = 10;
@@ -306,7 +315,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(472, 749);
+            this.label4.Location = new System.Drawing.Point(563, 749);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 13);
             this.label4.TabIndex = 13;
@@ -314,7 +323,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(532, 746);
+            this.textBox4.Location = new System.Drawing.Point(623, 746);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(164, 20);
             this.textBox4.TabIndex = 12;
@@ -322,7 +331,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(702, 749);
+            this.label5.Location = new System.Drawing.Point(793, 749);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(54, 13);
             this.label5.TabIndex = 15;
@@ -330,7 +339,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(762, 746);
+            this.textBox5.Location = new System.Drawing.Point(853, 746);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(164, 20);
             this.textBox5.TabIndex = 14;
@@ -369,21 +378,21 @@
             // openGameLogToolStripMenuItem
             // 
             this.openGameLogToolStripMenuItem.Name = "openGameLogToolStripMenuItem";
-            this.openGameLogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openGameLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openGameLogToolStripMenuItem.Text = "Open Game Log";
             this.openGameLogToolStripMenuItem.Click += new System.EventHandler(this.openGameLogToolStripMenuItem_Click);
             // 
             // openActionLogToolStripMenuItem
             // 
             this.openActionLogToolStripMenuItem.Name = "openActionLogToolStripMenuItem";
-            this.openActionLogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openActionLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openActionLogToolStripMenuItem.Text = "Open Action Log";
             this.openActionLogToolStripMenuItem.Click += new System.EventHandler(this.openActionLogToolStripMenuItem_Click);
             // 
             // openManifestLogToolStripMenuItem
             // 
             this.openManifestLogToolStripMenuItem.Name = "openManifestLogToolStripMenuItem";
-            this.openManifestLogToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.openManifestLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openManifestLogToolStripMenuItem.Text = "Open Manifest Log";
             this.openManifestLogToolStripMenuItem.Click += new System.EventHandler(this.openManifestLogToolStripMenuItem_Click);
             // 
@@ -555,12 +564,104 @@
             this.saveFilteredToolStripMenuItem.Text = "Save Filtered Log";
             this.saveFilteredToolStripMenuItem.Click += new System.EventHandler(this.saveFilteredToolStripMenuItem_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(793, 799);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(54, 13);
+            this.label8.TabIndex = 27;
+            this.label8.Text = "Target #4";
+            // 
+            // textBox6
+            // 
+            this.textBox6.Location = new System.Drawing.Point(853, 796);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(164, 20);
+            this.textBox6.TabIndex = 26;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(563, 799);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(54, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "Target #3";
+            // 
+            // textBox7
+            // 
+            this.textBox7.Location = new System.Drawing.Point(623, 796);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(164, 20);
+            this.textBox7.TabIndex = 24;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(333, 799);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(54, 13);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "Target #2";
+            // 
+            // textBox8
+            // 
+            this.textBox8.Location = new System.Drawing.Point(393, 796);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(164, 20);
+            this.textBox8.TabIndex = 22;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(103, 799);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 13);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Target #1";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(163, 796);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(164, 20);
+            this.textBox9.TabIndex = 20;
+            // 
+            // Keep
+            // 
+            this.Keep.AutoSize = true;
+            this.Keep.Location = new System.Drawing.Point(38, 749);
+            this.Keep.Name = "Keep";
+            this.Keep.Size = new System.Drawing.Size(59, 13);
+            this.Keep.TabIndex = 28;
+            this.Keep.Text = "Search For";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(60, 799);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(37, 13);
+            this.label12.TabIndex = 29;
+            this.label12.Text = "Ignore";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ClientSize = new System.Drawing.Size(1579, 771);
+            this.ClientSize = new System.Drawing.Size(1579, 822);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.Keep);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.textBox7);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.textBox8);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.textBox9);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.panel2);
@@ -646,6 +747,16 @@
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ToolStripMenuItem saveFilteredToolStripMenuItem;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label Keep;
+        private System.Windows.Forms.Label label12;
     }
 }
 
