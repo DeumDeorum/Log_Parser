@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Microsoft.VisualBasic;
 using mshtml;
+
 namespace LogParser
 {
     public partial class Form1 : Form
@@ -67,8 +69,8 @@ namespace LogParser
                 master[actionIndex + gameLog.Length] = actionLog2[actionIndex];
             }
             if (master.Length > 0)
-            {         
-                webBrowser1.DocumentText = disgustingHorseShitCSSYouDontNNeedToSee()
+            {
+                webBrowser1.DocumentText = disgustingHorseShitCSSYouDontNeedToSee()
                 + String.Join("", master.Where((s => handleWhere(s)))) + "</div ><html>";
             }
 
@@ -77,7 +79,7 @@ namespace LogParser
         private String[] cleanLogsAccordingToFilters(String[] tempLog)
         {
             String[] tempLog2 = tempLog.Clone() as String[];
-            tempLog.CopyTo(tempLog2,0);
+            tempLog.CopyTo(tempLog2, 0);
             for (int i = 0; i < tempLog2.Length; i++)
             {
                 Boolean result = false;
@@ -90,6 +92,17 @@ namespace LogParser
                     result = log.Contains(filters[b].ToLower());
 
                 }
+                if (filters == null)
+                {
+                    filters = new List<string>();
+                    
+                }
+                if (filters.Count == 0)
+                {
+
+                    filters.Add("");
+
+                }
                 for (int c = 0; c < filterOut.Count && result && !filterOutResult; c++)
                 {
                     filterOutResult = log.Contains(filterOut[c].ToLower());
@@ -99,19 +112,23 @@ namespace LogParser
                 if (log.Contains(")"))
                 {
 
-                    didFindPerson = ((person = findPerson(log)).Name.Length>0);
+                    didFindPerson = ((person = findPerson(log)).Name.Length > 0);
 
                     int start = log.IndexOf(")") + 1;
                     int end = log.Length - start;
                     log = log.Substring(start);
 
-                    log = trimLocationFromLog(log);
+                    if (showLocationBox.Checked)
+                    {
 
-//                    string encasePerson = "";
-//                   if (didFindPerson)
-//                    {
-//                        encasePerson = "<Details> <Summary> " + person.Name + "</Summary> Yeah i contain info </Details>";
- //                   }
+                        log = trimLocationFromLog(log);
+                    }
+
+                    //                    string encasePerson = "";
+                    //                   if (didFindPerson)
+                    //                    {
+                    //                        encasePerson = "<Details> <Summary> " + person.Name + "</Summary> Yeah i contain info </Details>";
+                    //                   }
 
                     //if (log.Contains("(")) log = log.Substring(0, log.IndexOf("(") - 1);
 
@@ -119,20 +136,21 @@ namespace LogParser
                     {
                         log = "<font color=\"purple\"\">" + log + "</font>";
                         log = displayToolTip(log, person, "OOC: ");
-                    }
-                    if (tempLog2[i].Contains("ATTACK"))
+                    }else if (tempLog2[i].Contains("ATTACK"))
                     {
                         log = "<font color=\"red\"\">" + log + "</font>";
                         log = displayToolTip(log, person, "Attack");
-                    }
-                    if (tempLog2[i].Contains("SAY"))
+                    }else if (tempLog2[i].Contains("SAY"))
                     {
                         log = "<font color=\"GREEN\"\">" + log + "</font>";
                         log = displayToolTip(log, person, "Says: ");
+                    }else if (tempLog2[i].Contains("LAW: "))
+                    {
+                        lawChanges = lawChanges + tempLog2[i] + "\n";
                     }
                 }
                 //Removed for now
-               // if (ShowTimesBox.Checked) log = "[" + times[times.Count-1].ToLongTimeString() + "]:  " + log;
+                // if (ShowTimesBox.Checked) log = "[" + times[times.Count-1].ToLongTimeString() + "]:  " + log;
                 if (!result || filterOutResult || person.Name.Contains("N00000000000N"))
                     log = "";
                 if (log.Length > 1) log = "<div> <inline> " + log + " </inline> </div> ";
@@ -141,7 +159,7 @@ namespace LogParser
             return tempLog2;
         }
 
-
+        String lawChanges = "";
         private String findRoundNumber(String log)
         {
             String[] temp = log.Split(' ');
@@ -177,7 +195,7 @@ namespace LogParser
             return new string(reverse);
         }
 
-        private void parseLogTime(String copyOfLog,String origin)
+        private void parseLogTime(String copyOfLog, String origin)
         {
             DateTime tempTime = new DateTime();
             if (copyOfLog.Contains("[") && copyOfLog.Contains("]"))
@@ -194,7 +212,7 @@ namespace LogParser
             }
         }
         //The rest of the code can be ignored, most of it is basic functions that are required but are unlikely to have bugs or other complex issues
-        
+
         //Simple filter and filter out settings. Nothing much to worry about here. Add in here if you want to add filter selection in/out tools.
         private void checkBoxFilters()
         {
@@ -381,16 +399,16 @@ namespace LogParser
         {
             //try
             //{
-                filters = new List<string>();
-                filterOut = new List<string>();
+            filters = new List<string>();
+            filterOut = new List<string>();
+            lawChanges = "";
+            checkBoxFilters();
+            filterBySelectionTool();
+            priority = filters.Count;
 
-                checkBoxFilters();
-                filterBySelectionTool();
-                priority = filters.Count;
+            filterOutBySelectionTool();
 
-                filterOutBySelectionTool();
-
-                startFilter();
+            startFilter();
             //}
             //catch (Exception) { };
         }
@@ -410,7 +428,7 @@ namespace LogParser
 
             // }
         }
-        private String disgustingHorseShitCSSYouDontNNeedToSee()
+        private String disgustingHorseShitCSSYouDontNeedToSee()
         {
             return "<html><style>.name{"
                     + "float:left;"
@@ -428,45 +446,45 @@ namespace LogParser
                     + "} "
 
 
-/*
-                    + ".wrapper{"
-                    + "\nheight: 100%;"
-                    + "\nwidth: 100%;"
-                    + "\nleft: 0;"
-                    + "\nright: 0;"
-                    + "\ntop: 0;"
-                    + "\nbottom: 0;"
-                    + "\nposition: absolute;"
-                    + "\nbackground: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);"
-                    + "\nbackground-size: 1800% 1800%;"
+                    /*
+                                        + ".wrapper{"
+                                        + "\nheight: 40000%;"
+                                        + "\nwidth: 100%;"
+                                        + "\nleft: 0;"
+                                        + "\nright: 0;"
+                                        + "\ntop: 0;"
+                                        + "\nbottom: 0;"
+                                        + "\nposition: absolute;"
+                                        + "\nbackground: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);"
+                                        + "\nbackground-size: 1800% 1800%;"
 
-                    + "\n-webkit-animation: rainbow 18s ease infinite;"
-                    + "\n-z-animation: rainbow 18s ease infinite;"
-                    + "\n-o-animation: rainbow 18s ease infinite;"
-                    + "\nanimation: rainbow 18s ease infinite;"
-                    + "\n}"
+                                        + "\n-webkit-animation: rainbow 18s ease infinite;"
+                                        + "\n-z-animation: rainbow 18s ease infinite;"
+                                        + "\n-o-animation: rainbow 18s ease infinite;"
+                                        + "\nanimation: rainbow 18s ease infinite;"
+                                        + "\n}"
 
-                    + "\n@-webkit-keyframes rainbow {"
-                    + "\n 0%{ background-position:0% 82%}"
-                    + "\n 50%{ background-position:100% 19%}"
-                    + "\n 100%{ background-position:0% 82%}"
-                    + "\n }"
-                    + "\n@-moz-keyframes rainbow {"
-                    + "\n 0%{ background-position:0% 82%}"
-                    + "\n 50%{ background-position:100% 19%}"
-                    + "\n 100%{ background-position:0% 82%}"
-                    + "\n}"
-                    + "\n@-o-keyframes rainbow {"
-                    + "\n 0%{ background-position:0% 82%}"
-                    + "\n 50%{ background-position:100% 19%}"
-                    + "\n 100%{ background-position:0% 82%}"
-                    + "\n}"
-                    + "\n@keyframes rainbow {"
-                    + "\n 0%{ background-position:0% 82%}"
-                    + "\n 50%{ background-position:100% 19%}"
-                    + "\n 100%{ background-position:0% 82%}"
-                    + "\n}"
-*/
+                                        + "\n@-webkit-keyframes rainbow {"
+                                        + "\n 0%{ background-position:0% 82%}"
+                                        + "\n 50%{ background-position:100% 19%}"
+                                        + "\n 100%{ background-position:0% 82%}"
+                                        + "\n }"
+                                        + "\n@-moz-keyframes rainbow {"
+                                        + "\n 0%{ background-position:0% 82%}"
+                                        + "\n 50%{ background-position:100% 19%}"
+                                        + "\n 100%{ background-position:0% 82%}"
+                                        + "\n}"
+                                        + "\n@-o-keyframes rainbow {"
+                                        + "\n 0%{ background-position:0% 82%}"
+                                        + "\n 50%{ background-position:100% 19%}"
+                                        + "\n 100%{ background-position:0% 82%}"
+                                        + "\n}"
+                                        + "\n@keyframes rainbow {"
+                                        + "\n 0%{ background-position:0% 82%}"
+                                        + "\n 50%{ background-position:100% 19%}"
+                                        + "\n 100%{ background-position:0% 82%}"
+                                        + "\n}"
+                    */
 
                     + "</style><script>"
                     + "function show(elem) {"
@@ -493,30 +511,34 @@ namespace LogParser
         List<Person> listOfPeople;
         private void openManifestLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listOfPeople = new List<Person>();
-            OpenFileDialog manifestDialog = new OpenFileDialog();
-
-            if (manifestDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                String[] manifestLog = File.ReadAllLines(manifestDialog.FileName);
-                logNumber = findRoundNumber(manifestLog[0]);
-                for (int i = 2; i < manifestLog.Length; i++)
+                listOfPeople = new List<Person>();
+                OpenFileDialog manifestDialog = new OpenFileDialog();
+
+                if (manifestDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (manifestLog[i].Contains("\\"))
+                    String[] manifestLog = File.ReadAllLines(manifestDialog.FileName);
+                    logNumber = findRoundNumber(manifestLog[0]);
+                    for (int i = 2; i < manifestLog.Length; i++)
                     {
-                        String[] temp = manifestLog[i].Split('\\');
-                        Person newPerson = new Person();
-                        newPerson.ckey = temp[0].Split(' ')[2].ToLower();
-                        newPerson.Name = temp[1].Trim(' ').ToLower();
-                        newPerson.Job = temp[2].Trim(' ').ToLower();
-                        newPerson.antag = temp[3].Trim(' ').ToLower();
-                        listOfPeople.Add(newPerson);
+                        if (manifestLog[i].Contains("\\"))
+                        {
+                            String[] temp = manifestLog[i].Split('\\');
+                            Person newPerson = new Person();
+                            newPerson.ckey = temp[0].Split(' ')[2].ToLower();
+                            newPerson.Name = temp[1].Trim(' ').ToLower();
+                            newPerson.Job = temp[2].Trim(' ').ToLower();
+                            newPerson.antag = temp[3].Trim(' ').ToLower();
+                            listOfPeople.Add(newPerson);
+                        }
+
                     }
+                    this.Text = "Round: " + logNumber;
 
                 }
-                this.Text ="Round: "+ logNumber;
-
             }
+            catch (Exception) { }
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -531,13 +553,17 @@ namespace LogParser
 
         private void openActionLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog actionDialog = new OpenFileDialog();
-
-            if (actionDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                actionLog = File.ReadAllLines(actionDialog.FileName);
-                //+= t + "\n";
+                OpenFileDialog actionDialog = new OpenFileDialog();
+
+                if (actionDialog.ShowDialog() == DialogResult.OK)
+                {
+                    actionLog = File.ReadAllLines(actionDialog.FileName);
+                    //+= t + "\n";
+                }
             }
+            catch (Exception) { }
         }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -545,38 +571,35 @@ namespace LogParser
 
         }
         int i = 0;
-        private string displayToolTip(String log, Person tempPerson,String prefix)
+        private string displayToolTip(String log, Person tempPerson, String prefix)
         {
             String color = "WHITE";
             if (tempPerson.Job.Contains("Sec".ToLower()) || tempPerson.Job.Contains("Warden".ToLower()))
             {
                 color = "RED";
-            }
-            if (tempPerson.Job.Contains("Engineer".ToLower()) || tempPerson.Job.Contains("Atmos".ToLower()))
+            }else if (tempPerson.Job.Contains("Engineer".ToLower()) || tempPerson.Job.Contains("Atmos".ToLower()))
             {
                 color = "Orange";
-            }
-            if (tempPerson.Job.Contains("Sci".ToLower()) || tempPerson.Job.Contains("Direct".ToLower()) || tempPerson.Job.Contains("Robot".ToLower()))
+            }else if (tempPerson.Job.Contains("Sci".ToLower()) || tempPerson.Job.Contains("Direct".ToLower()) || tempPerson.Job.Contains("Robot".ToLower()))
             {
                 color = "Purple";
-            }
-            if (tempPerson.Job.Contains("Doc".ToLower()) || tempPerson.Job.Contains("Medi".ToLower()) || tempPerson.Job.Contains("Genet".ToLower()) || tempPerson.Job.Contains("Chemistry".ToLower()))
+            }else if (tempPerson.Job.Contains("Doc".ToLower()) || tempPerson.Job.Contains("Medi".ToLower()) || tempPerson.Job.Contains("Genet".ToLower()) || tempPerson.Job.Contains("Chemistry".ToLower()))
             {
                 color = "cyan";
             }
             i++;
             Boolean isAntag = !(tempPerson.antag.Contains("none"));
-            
-            log = ((isAntag) ? "<b><u>" : "")+ "" +"<div  class = \"name\" onmouseover=\"show(tooltip" + i + ")\" onmouseout=\"hide(tooltip" + i + ")\" > " 
-                  +((ShowTimesBox.Checked)?("[" + times[times.Count - 1].ToLongTimeString() + "]:  ") :"") + prefix +" "+tempPerson.Name 
-                  + ": <div class = \"tooltip\" id= \"tooltip"+i+ "\" style=\"background-color:"+color+";\">"
+
+            log = ((isAntag) ? "<b><u>" : "") + "" + "<div  class = \"name\" onmouseover=\"show(tooltip" + i + ")\" onmouseout=\"hide(tooltip" + i + ")\" > "
+                  + ((ShowTimesBox.Checked) ? ("[" + times[times.Count - 1].ToLongTimeString() + "]:  ") : "") + prefix + " " + tempPerson.Name
+                  + ": <div class = \"tooltip\" id= \"tooltip" + i + "\" style=\"background-color:" + color + ";\">"
                   + "<div>IC Name: " + tempPerson.Name + "</div>"
                   + "<div>CKey Name: " + tempPerson.ckey + "</div>"
                   + "<div>JOB: " + tempPerson.Job + "</div>"
                   + "<div>ANTAG: " + tempPerson.antag + "</div>"
                   + "<div>TIME: " + "[" + times[times.Count - 1].ToLongTimeString() + "]" + " </div>"
                   + "</div>"
-                  + "</div>  " + log+"" + ((isAntag) ? "</b></u>" : "");
+                  + "</div>  " + log + "" + ((isAntag) ? "</b></u>" : "");
 
             return log;
         }
@@ -588,19 +611,135 @@ namespace LogParser
 
         private void saveFilteredToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Webpage |*.html";
-            dialog.Title = "Save Filtered Log";
-            dialog.FileName = "Filtered Log " + logNumber+".html";
-            dialog.ShowDialog();
-            System.IO.Stream stream;
-            
+            try
+            {
+
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "Webpage |*.html";
+                dialog.Title = "Save Filtered Log";
+                dialog.FileName = "Filtered Log " + logNumber + ".html";
+                dialog.ShowDialog();
+                System.IO.Stream stream;
+
                 stream = dialog.OpenFile();
                 StreamWriter writer = new StreamWriter(stream);
                 writer.Write(webBrowser1.DocumentText);
                 writer.Close();
+            }
+            catch (Exception) { }
+
+
+        }
+
+        private void setupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoginForm form = new LoginForm();
+            form.Show();
+            form = new LoginForm();
             
         }
+        int roundNumber = 0;
+        private void getStandardFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (roundNumber<15000)
+                return;
+            listOfPeople = new List<Person>();
+            WebBrowser tempattackLog = new WebBrowser();
+            WebBrowser tempgamelog = new WebBrowser();
+            WebBrowser tempmanifestlog = new WebBrowser();
+            tempattackLog.Url = new Uri("https://www.yogstation.net/index.php?do=serverlogs&round=" + roundNumber + "&file=attack.log");
+            tempgamelog.Url = new Uri("https://www.yogstation.net/index.php?do=serverlogs&round=" + roundNumber + "&file=game.log");
+            tempmanifestlog.Url = new Uri("https://www.yogstation.net/index.php?do=serverlogs&round=" + roundNumber + "&file=manifest.log");
+
+            while(tempattackLog.ReadyState != WebBrowserReadyState.Complete||tempgamelog.ReadyState != WebBrowserReadyState.Complete||tempmanifestlog.ReadyState != WebBrowserReadyState.Complete)
+            {
+                Application.DoEvents();
+            }
+
+
+            String[] mlog = tempmanifestlog.DocumentText.Split('\n');
+            logNumber = findRoundNumber(mlog[0]);
+            for (int i = 2; i < mlog.Length; i++)
+            {
+                if (mlog[i].Contains("\\"))
+                {
+                    String[] temp = mlog[i].Split('\\');
+                    Person newPerson = new Person();
+                    newPerson.ckey = temp[0].Split(' ')[2].ToLower();
+                    newPerson.Name = temp[1].Trim(' ').ToLower();
+                    newPerson.Job = temp[2].Trim(' ').ToLower();
+                    newPerson.antag = temp[3].Trim(' ').ToLower();
+                    listOfPeople.Add(newPerson);
+                }
+
+            }
+            this.Text = "Round: " + logNumber;
+            this.gameLog = tempgamelog.DocumentText.Split('\n');
+            this.actionLog = tempattackLog.DocumentText.Split('\n');
+            button3_Click(null,null);
+        }
+
+        private void newRoundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string result="";
+            result = Interaction.InputBox("Please enter the round number.", "enter",result,400,400);
+            try
+            {
+               roundNumber = int.Parse(result);
+                
+            }
+            catch
+            {
+                roundNumber = 0;
+            }
+        }
+
+        private void getOtherFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WebBrowser tempbrowser = new WebBrowser();
+            tempbrowser.Url = new Uri("https://www.yogstation.net/index.php?do=serverlogs&round=" + roundNumber + "&file="+listOfFiles[comboBox1.SelectedIndex]);
+            while (tempbrowser.ReadyState != WebBrowserReadyState.Complete)
+            {
+                Application.DoEvents();
+            }
+            //if (!listOfFiles[comboBox1.SelectedIndex].Contains(".html"))
+            //{
+                richTextBox2.Text = tempbrowser.DocumentText;
+            //}
+            //else
+            //{
+                //webBrowser2 = tempbrowser;
+            //}
+            tabControl1.SelectTab(1);
+        }
+        String[] listOfFiles = 
+        {
+            "asset.log", "atmos.html", "attack.log", "cargo.html",
+            "cloning.log", "config_error.log", "dd.log", "game.log", "hallucinations.html",
+            "hrefs.log", "initialize.log", "job_debug.log", "manifest.log", "map_errors.log",
+            "newscaster.json", "overlay.log", "paper.log", "pda.log", "presents.html", "qdel.log",
+            "radiation.html", "records.html", "research.html", "round_end_dat.json", "runtime.log",
+            "singulo.html", "sql.log", "supermatter.html", "telecomms.log", "viro.html", "virus.log", "wires.html"
+        };
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            comboBox1.DataSource = new BindingSource(listOfFiles, null);
+        }
+
+        private void aiLogTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            getOtherFilesToolStripMenuItem_Click(sender, e);
+        }
     }
-    
+
 }
